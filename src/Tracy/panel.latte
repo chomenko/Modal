@@ -1,0 +1,26 @@
+<h1>Modals</h1>
+<div class="tracy-inner">
+	<div style="max-height: 400px; overflow: hidden; overflow-y: auto;">
+		<table style="min-width: 400px; margin-bottom: 10px;">
+			<thead>
+			<tr>
+				<th>ID</th>
+				<th>Factory</th>
+				<th></th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr n:foreach="$list as $factory">
+				<td>{$factory->getId()}</td>
+				<td>{$factory->getInterface()}</td>
+				<td><a href="?do=modal-{$factory->getId()}">Open</a></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+	<div style="text-align: right;">
+		{*
+		<a href="/?panel_action=clean_cache" style="padding: 0px 10px 0px 10px; line-height: 31px; background: #438bf2; color: white; display: inline-table;">Remove cache</a>
+		*}
+	</div>
+</div>

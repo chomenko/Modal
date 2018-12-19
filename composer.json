@@ -1,0 +1,32 @@
+{
+  "name": "chomenko/modal",
+  "type": "extensions",
+  "description": "Nette Bootstrap modal",
+  "keywords": ["Modal", "Bootstrap"],
+  "homepage": "https://github.com/chomenko/modal",
+  "license": [],
+  "authors": [
+    {
+      "name": "Mykola Chomenko",
+      "homepage": "http://dipcom.cz",
+      "email": "mykola.chomenko@dipcom.cz"
+    }
+  ],
+  "support": {
+    "email": "mykola.chomenko@dipcom.cz"
+  },
+  "require": {
+    "php": ">=7.1",
+    "nette/di": ">=2.4",
+    "nette/application": ">=2.4",
+    "latte/latte": ">=2.4",
+    "nette/utils": ">=2.4",
+    "tracy/tracy": ">=2.4",
+    "chomenko/app-webloader": "@dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Chomenko\\Modal\\": "src/"
+    }
+  }
+}
