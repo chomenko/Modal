@@ -55,9 +55,9 @@ Add to layout.late
 <body class="skin-purple sidebar-mini fixed">
 	{control modal}
 	{control footerCss}
-    {block scripts}
-    	{control js}
-    {/block}
+	{block scripts}
+    		{control js}
+    	{/block}
 </body>
 </html>
 ````
