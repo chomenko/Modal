@@ -74,7 +74,7 @@ class ModalExtension extends CompilerExtension
     public static function register(Configurator $configurator)
     {
         $configurator->onCompile[] = function ($config, Compiler $compiler){
-            $compiler->addExtension('AppWebLoader', new AppWebLoaderExtension());
+            $compiler->addExtension('Modal', new ModalExtension());
         };
     }
 
