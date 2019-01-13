@@ -68,9 +68,9 @@ class WrappedModal extends Control
 		$this->eventListener->emit(Subscriber::BEFORE_RENDER, $component, $factory, [$wrapped]);
 
 		ob_start();
-		$component->renderHeader($wrapped);
-		$component->renderBody($wrapped);
-		$component->renderFooter($wrapped);
+		$component->renderHeader($wrapped, $wrapped->createHeader($component->getTitle()));
+		$component->renderBody($wrapped, $wrapped->createBody());
+		$component->renderFooter($wrapped, $wrapped->createFooter());
 		$output = ob_get_contents();
 		ob_end_clean();
 
@@ -84,9 +84,10 @@ class WrappedModal extends Control
 	}
 
 	/**
-	 * @param $signal
+	 * @param mixed $signal
 	 * @throws BadSignalException
 	 * @throws ModalException
+	 * @throws \ReflectionException
 	 */
 	public function signalReceived($signal)
 	{
@@ -96,7 +97,7 @@ class WrappedModal extends Control
 
 			$exp = explode("-", $signal);
 			$factory = $this->controller->getById($exp[0]);
-			if(!$factory){
+			if (!$factory) {
 				$class = get_class($this);
 				throw new BadSignalException("There is no handler for signal '$signal' in class $class.");
 			}
@@ -105,7 +106,7 @@ class WrappedModal extends Control
 	}
 
 	/**
-	 * @param $name
+	 * @param string $name
 	 * @param bool $throw
 	 * @return \Nette\ComponentModel\IComponent|null
 	 * @throws ModalException
@@ -145,7 +146,7 @@ class WrappedModal extends Control
 					}
 					if (array_key_exists($parameter->getName(), $parameters)) {
 						$arguments[$parameter->getName()] = $parameters[$parameter->getName()];
-					}else{
+					} else {
 						$arguments[$parameter->getName()] = $parameter->getDefaultValue();
 					}
 				}

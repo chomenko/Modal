@@ -7,6 +7,7 @@
 
 namespace Chomenko\Modal;
 
+use Chomenko\Modal\Exceptions\ModalException;
 use Nette\DI\Container;
 
 class ModalController
@@ -27,16 +28,25 @@ class ModalController
 	 */
 	private $modal = [];
 
-	public function __construct(Container $container, IWrappedModal $modalFactory){
+	/**
+	 * @param Container $container
+	 * @param IWrappedModal $modalFactory
+	 */
+	public function __construct(Container $container, IWrappedModal $modalFactory)
+	{
 		$this->container = $container;
 		$this->modalFactory = $modalFactory;
 	}
 
 	/**
 	 * @param string $interface
+	 * @throws ModalException
 	 */
 	public function addModal(string $interface)
 	{
+		if (!interface_exists($interface)) {
+			throw ModalException::interfaceNotFound($interface);
+		}
 		$factory = new ModalFactory($interface, $this->container->getByType($interface));
 		$this->modal[$factory->getId()] = $factory;
 	}
@@ -55,7 +65,7 @@ class ModalController
 
 	/**
 	 * @param string $interface
-	 * @return ModalFactory
+	 * @return ModalFactory|null
 	 */
 	public function getByInterface(string $interface): ?ModalFactory
 	{

@@ -25,11 +25,11 @@ class ModalExtension extends CompilerExtension
 	const KEY_PROVIDER = '@modal.provider';
 	const CONTROL_NAME = 'modal';
 
-    public function loadConfiguration()
-    {
-        $builder = $this->getContainerBuilder();
-        $builder->addDefinition($this->prefix("modal"))
-            ->setFactory(ModalController::class);
+	public function loadConfiguration()
+	{
+		$builder = $this->getContainerBuilder();
+		$builder->addDefinition($this->prefix("modal"))
+			->setFactory(ModalController::class);
 
 		$builder->addDefinition($this->prefix("event"))
 			->setFactory(EventListener::class);
@@ -42,7 +42,7 @@ class ModalExtension extends CompilerExtension
 			->setFactory(Panel::class);
 
 		$builder->getDefinition('tracy.bar')
-			->addSetup('$service->addPanel($this->getService(?));',array($this->prefix('panel')));
+			->addSetup('$service->addPanel($this->getService(?));', [$this->prefix('panel')]);
     }
 
 

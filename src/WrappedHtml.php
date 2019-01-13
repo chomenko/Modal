@@ -27,7 +27,6 @@ class WrappedHtml extends Html
 	 */
 	protected $content;
 
-
 	public function __construct()
 	{
 		$this->wrapped = $this->createWrapped();
@@ -45,11 +44,11 @@ class WrappedHtml extends Html
 	{
 		$this->setName("div");
 		$this->addAttributes([
-			"class" =>	"modal fade",
+			"class" => "modal fade",
 			"tabindex" => "-1",
 			"role" => "dialog",
 			"aria-labelledby" => "exampleModalLabel",
-			"aria-hidden" => "true"
+			"aria-hidden" => "true",
 		]);
 		return $this;
 	}
@@ -61,7 +60,7 @@ class WrappedHtml extends Html
 	{
 		return Html::el("div", [
 			"class" =>	"modal-dialog",
-			"role" => "document"
+			"role" => "document",
 		]);
 	}
 
@@ -71,8 +70,62 @@ class WrappedHtml extends Html
 	protected function createContent()
 	{
 		return Html::el("div", [
-			"class" =>	"modal-content"
+			"class" => "modal-content",
 		]);
+	}
+
+	/**
+	 * @param string $title
+	 * @return ModalHtml
+	 */
+	public function createHeader(string $title): ModalHtml
+	{
+		$header = ModalHtml::el("div", [
+			"class" => "modal-header",
+		]);
+
+		$closeButton = Html::el("button", [
+			"type" => "button",
+			"class" => "close",
+			"data-dismiss" => "modal",
+			"aria-label" => "Close",
+		])->setHtml(Html::el("span", [
+			"aria-hidden" => "true",
+		])->setText("×"));
+
+		$label = Html::el("h4", [
+			"class" => "modal-title",
+		])->setHtml($title);
+
+		$header->addHtml($closeButton)->addHtml($label);
+		return $header;
+	}
+
+	/**
+	 * @return ModalHtml
+	 */
+	public function createBody(): ModalHtml
+	{
+		return ModalHtml::el("div", [
+			"class" => "modal-body",
+		]);
+	}
+
+	/**
+	 * @return ModalHtml
+	 */
+	public function createFooter(): ModalHtml
+	{
+		$closeButton = Html::el("button", [
+			"type" => "button",
+			"class" => "btn btn-default",
+			"data-dismiss" => "modal",
+		])->setText("Close");
+
+
+		return ModalHtml::el("modal-footer", [
+			"class" => "modal-body",
+		])->addHtml($closeButton);
 	}
 
 	/**

@@ -24,20 +24,20 @@ interface IModalControl
 
 	/**
 	 * @param WrappedHtml $wrappedHtml
-	 * @return mixed
+	 * @param ModalHtml $header
 	 */
-	public function renderHeader(WrappedHtml $wrappedHtml);
+	public function renderHeader(WrappedHtml $wrappedHtml, ModalHtml $header);
 
 	/**
 	 * @param WrappedHtml $wrappedHtml
-	 * @return mixed
+	 * @param ModalHtml $body
 	 */
-	public function renderBody(WrappedHtml $wrappedHtml);
+	public function renderBody(WrappedHtml $wrappedHtml, ModalHtml $body);
 
 	/**
 	 * @param WrappedHtml $wrappedHtml
-	 * @return mixed
+	 * @param ModalHtml $footer
 	 */
-	public function renderFooter(WrappedHtml $wrappedHtml);
+	public function renderFooter(WrappedHtml $wrappedHtml, ModalHtml $footer);
 
 }

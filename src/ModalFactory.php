@@ -9,6 +9,7 @@ namespace Chomenko\Modal;
 
 use Chomenko\Modal\DI\ModalExtension;
 use Nette\Http\Url;
+use Nette\Utils\Html;
 
 class ModalFactory
 {
@@ -57,7 +58,7 @@ class ModalFactory
 		foreach ($modalUrl->getQueryParameters() as $key => $value) {
 			$prefix = ModalExtension::CONTROL_NAME . "-";
 			$len = strlen($prefix);
-			if (substr($key,  0, $len) === $prefix) {
+			if (substr($key, 0, $len) === $prefix) {
 				$modalUrl->setQueryParameter($key, NULL);
 			}
 		}
@@ -122,9 +123,22 @@ class ModalFactory
 
 		$url = clone $this->url;
 		foreach ($parameters as $key => $value) {
-			$url->setQueryParameter( ModalExtension::CONTROL_NAME . "-" . $this->getId() . "-" . $key, $value);
+			$url->setQueryParameter(ModalExtension::CONTROL_NAME . "-" . $this->getId() . "-" . $key, $value);
 		}
 		return $url;
+	}
+
+	/**
+	 * @param array $parameters
+	 * @param string $class
+	 * @return Html
+	 */
+	public function createLink(array $parameters = [], string $class = "btn btn-default"): Html
+	{
+		return Html::el("a", [
+			"href" => $this->getUrl($parameters),
+			"class" => $class,
+		]);
 	}
 
 }

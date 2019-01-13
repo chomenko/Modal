@@ -9,6 +9,7 @@ namespace Chomenko\Modal;
 
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Presenter;
+use Nette\Utils\Html;
 
 abstract class ModalControl extends Control implements IModalControl
 {
@@ -35,33 +36,35 @@ abstract class ModalControl extends Control implements IModalControl
 	/**
 	 * @return string
 	 */
-	protected function getTitle() :string
+	public function getTitle() :string
 	{
 		return "Modal title";
 	}
 
 	/**
 	 * @param WrappedHtml $wrappedHtml
-	 * @return mixed|void
+	 * @param ModalHtml $header
 	 */
-	public function renderHeader(WrappedHtml $wrappedHtml)
+	public function renderHeader(WrappedHtml $wrappedHtml, ModalHtml $header)
 	{
-		$this->template->title = $this->getTitle();
-		$this->template->setFile(__DIR__ . "/template/header.latte");
-		$this->template->render();
+		$header->render();
 	}
 
 	/**
 	 * @param WrappedHtml $wrappedHtml
+	 * @param ModalHtml $body
 	 * @return mixed
 	 */
-	public abstract function renderBody(WrappedHtml $wrappedHtml);
+	public function renderBody(WrappedHtml $wrappedHtml, ModalHtml $body)
+	{
+		$body->render();
+	}
 
 	/**
 	 * @param WrappedHtml $wrappedHtml
 	 * @return mixed|void
 	 */
-	public function renderFooter(WrappedHtml $wrappedHtml)
+	public function renderFooter(WrappedHtml $wrappedHtml, ModalHtml $footer)
 	{
 		$this->template->setFile(__DIR__ . "/template/footer.latte");
 		$this->template->render();
@@ -123,6 +126,26 @@ abstract class ModalControl extends Control implements IModalControl
 	public function setPersistent(array $params)
 	{
 		$this->persistent = $params;
+	}
+
+	/**
+	 * @param object $component
+	 * @param array $params
+	 * @return null|string
+	 */
+	protected function renderComponent(object $component, array $params = []): ?string
+	{
+		$output = NULL;
+		if (method_exists($component, "render")) {
+			ob_start();
+			$result = call_user_func_array([$component, "render"], $params);
+			$output = ob_get_contents();
+			if (empty($output) && !empty($result)) {
+				$output = $result;
+			}
+			ob_end_clean();
+		}
+		return $output;
 	}
 
 }
