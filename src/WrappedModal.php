@@ -8,6 +8,7 @@
 namespace Chomenko\Modal;
 
 use Chomenko\AppWebLoader\AppWebLoader;
+use Chomenko\AppWebLoader\Exceptions\AppWebLoaderException;
 use Chomenko\Modal\DI\ModalExtension;
 use Chomenko\Modal\Events\EventListener;
 use Chomenko\Modal\Events\Subscriber;
@@ -49,8 +50,12 @@ class WrappedModal extends Control
 		$this->controller = $controller;
 		$this->eventListener = $eventListener;
 		$this->user = $user;
-		$collection = $appWebLoader->createCollection("modal");
-		$collection->addScript(__DIR__ . "/template/modal.js");
+		try {
+			$collection = $appWebLoader->createCollection("modal");
+			$collection->addScript(__DIR__ . "/template/modal.js");
+		}catch (AppWebLoaderException $e) {
+			return;
+		}
 	}
 
 	public function render()
