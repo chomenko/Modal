@@ -13,6 +13,7 @@ use Nette\Security\User;
 
 class AccessAction
 {
+
 	/**
 	 * @var Presenter
 	 */
@@ -36,7 +37,7 @@ class AccessAction
 	/**
 	 * @var bool
 	 */
-	private $allowed = false;
+	private $allowed = FALSE;
 
 	public function __construct(Presenter $presenter, User $user)
 	{

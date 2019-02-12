@@ -9,8 +9,10 @@ namespace Chomenko\Modal;
 
 interface IWrappedModal
 {
+
 	/**
 	 * @return WrappedModal
 	 */
 	public function create();
+
 }

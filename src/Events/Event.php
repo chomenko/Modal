@@ -32,7 +32,7 @@ class Event
 	 * @param string $type
 	 * @param string|NULL $interface
 	 */
-	public function __construct(callable $callable, string $type, string $interface = null)
+	public function __construct(callable $callable, string $type, string $interface = NULL)
 	{
 		$this->callable = $callable;
 		$this->type = $type;

@@ -62,6 +62,7 @@ abstract class ModalControl extends Control implements IModalControl
 
 	/**
 	 * @param WrappedHtml $wrappedHtml
+	 * @param ModalHtml $footer
 	 * @return mixed|void
 	 */
 	public function renderFooter(WrappedHtml $wrappedHtml, ModalHtml $footer)
@@ -76,7 +77,7 @@ abstract class ModalControl extends Control implements IModalControl
 	public function loadState(array $params)
 	{
 		$list = get_class_vars(get_class($this));
-		foreach ($params as $key => $value){
+		foreach ($params as $key => $value) {
 			if (array_key_exists($key, $list)) {
 				$this->{$key} = $value;
 			}
@@ -107,7 +108,7 @@ abstract class ModalControl extends Control implements IModalControl
 	}
 
 	/**
-	 * @param $presenter
+	 * @param object $presenter
 	 */
 	public function attached($presenter)
 	{

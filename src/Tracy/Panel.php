@@ -14,6 +14,7 @@ use Latte;
 
 class Panel implements IBarPanel
 {
+
 	/**
 	 * @var ModalController
 	 */
@@ -32,9 +33,9 @@ class Panel implements IBarPanel
 	 */
 	private function getIconHtml()
 	{
-		$path = __DIR__.'/icon.png';
+		$path = __DIR__ . '/icon.png';
 		$type = pathinfo($path, PATHINFO_EXTENSION);
-		$data = file_get_contents(__DIR__.'/icon.png');
+		$data = file_get_contents(__DIR__ . '/icon.png');
 		$src = 'data:image/' . $type . ';base64,' . base64_encode($data);
 		return Html::el("img")
 			->setAttribute("src", $src)
@@ -48,7 +49,7 @@ class Panel implements IBarPanel
 	public function getTab()
 	{
 		$count = count($this->controller->getModels());
-		return Html::el()->addHtml($this->getIconHtml())->addText(" ".$count);
+		return Html::el()->addHtml($this->getIconHtml())->addText(" " . $count);
 	}
 
 	/**
@@ -58,7 +59,7 @@ class Panel implements IBarPanel
 	{
 		$latte = new Latte\Engine;
 		$data = [
-			"list" => $this->controller->getModels()
+			"list" => $this->controller->getModels(),
 		];
 		return $latte->renderToString(__DIR__ . '/panel.latte', $data);
 	}

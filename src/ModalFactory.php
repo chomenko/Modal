@@ -8,6 +8,7 @@
 namespace Chomenko\Modal;
 
 use Chomenko\Modal\DI\ModalExtension;
+use Nette\Http\Request;
 use Nette\Http\Url;
 use Nette\Utils\Html;
 
@@ -35,16 +36,27 @@ class ModalFactory
 	private $instance;
 
 	/**
+	 * @var Request
+	 */
+	private $request;
+
+	/**
 	 * @var Url
 	 */
 	private $url;
 
-	public function __construct(string $interface, object $service)
+	/**
+	 * @param string $interface
+	 * @param object $service
+	 * @param Request $request
+	 */
+	public function __construct(string $interface, object $service, Request $request)
 	{
 		$this->id = hash("crc32b", $interface);
 		$this->interface = $interface;
 		$this->service = $service;
-		$this->url = $this->createUrl();
+		$this->request = $request;
+		$this->url = $this->createUrl($request);
 	}
 
 	/**
@@ -52,8 +64,9 @@ class ModalFactory
 	 */
 	private function createUrl()
 	{
-		$actualLink = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-		$modalUrl = new Url($actualLink);
+		$originalUrl = $this->request->getUrl();
+		$modalUrl = clone $originalUrl;
+		$modalUrl->setQuery([]);
 
 		foreach ($modalUrl->getQueryParameters() as $key => $value) {
 			$prefix = ModalExtension::CONTROL_NAME . "-";
@@ -139,6 +152,14 @@ class ModalFactory
 			"href" => $this->getUrl($parameters),
 			"class" => $class,
 		]);
+	}
+
+	/**
+	 * @return Request
+	 */
+	public function getRequest(): Request
+	{
+		return $this->request;
 	}
 
 }

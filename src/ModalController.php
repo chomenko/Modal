@@ -9,6 +9,7 @@ namespace Chomenko\Modal;
 
 use Chomenko\Modal\Exceptions\ModalException;
 use Nette\DI\Container;
+use Nette\Http\Request;
 
 class ModalController
 {
@@ -29,13 +30,20 @@ class ModalController
 	private $modal = [];
 
 	/**
+	 * @var Request
+	 */
+	private $request;
+
+	/**
 	 * @param Container $container
 	 * @param IWrappedModal $modalFactory
+	 * @param Request $request
 	 */
-	public function __construct(Container $container, IWrappedModal $modalFactory)
+	public function __construct(Container $container, IWrappedModal $modalFactory, Request $request)
 	{
 		$this->container = $container;
 		$this->modalFactory = $modalFactory;
+		$this->request = $request;
 	}
 
 	/**
@@ -47,7 +55,7 @@ class ModalController
 		if (!interface_exists($interface)) {
 			throw ModalException::interfaceNotFound($interface);
 		}
-		$factory = new ModalFactory($interface, $this->container->getByType($interface));
+		$factory = new ModalFactory($interface, $this->container->getByType($interface), $this->request);
 		$this->modal[$factory->getId()] = $factory;
 	}
 

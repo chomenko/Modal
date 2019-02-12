@@ -59,7 +59,7 @@ class WrappedHtml extends Html
 	protected function createDialog()
 	{
 		return Html::el("div", [
-			"class" =>	"modal-dialog",
+			"class" => "modal-dialog",
 			"role" => "document",
 		]);
 	}
@@ -121,7 +121,6 @@ class WrappedHtml extends Html
 			"class" => "btn btn-default",
 			"data-dismiss" => "modal",
 		])->setText("Close");
-
 
 		return ModalHtml::el("modal-footer", [
 			"class" => "modal-body",

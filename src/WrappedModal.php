@@ -41,6 +41,13 @@ class WrappedModal extends Control
 	 */
 	private $user;
 
+	/**
+	 * @param AppWebLoader $appWebLoader
+	 * @param ModalController $controller
+	 * @param EventListener $eventListener
+	 * @param User $user
+	 * @throws \ReflectionException
+	 */
 	public function __construct(
 		AppWebLoader $appWebLoader,
 		ModalController $controller,
@@ -53,7 +60,7 @@ class WrappedModal extends Control
 		try {
 			$collection = $appWebLoader->createCollection("modal");
 			$collection->addScript(__DIR__ . "/template/modal.js");
-		}catch (AppWebLoaderException $e) {
+		} catch (AppWebLoaderException $e) {
 			return;
 		}
 	}
@@ -139,7 +146,6 @@ class WrappedModal extends Control
 			$component = $factory->getInstance();
 			$this->eventListener->emit(Subscriber::CREATE, $component, $factory, [$factory]);
 			$this->accessor($component, $factory);
-
 
 			if (method_exists($component, "create")) {
 				$parameters = $this->getComponentParams($factory);

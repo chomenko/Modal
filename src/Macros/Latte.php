@@ -55,8 +55,8 @@ class Latte extends MacroSet
 	 */
 	public function macroMLink(MacroNode $node, PhpWriter $writer)
 	{
-		$class = Latte::class;
-		return $writer->write('echo '.$class.'::modalUrl($this, %node.array);');
+		$class = self::class;
+		return $writer->write('echo ' . $class . '::modalUrl($this, %node.array);');
 	}
 
 	/**
@@ -66,12 +66,12 @@ class Latte extends MacroSet
 	 */
 	public function macroAttrMLink(MacroNode $node, PhpWriter $writer)
 	{
-		$class = Latte::class;
-		return $writer->write('echo '.$class.'::modalUrl($this, %node.array, true)');
+		$class = self::class;
+		return $writer->write('echo ' . $class . '::modalUrl($this, %node.array, true)');
 	}
 
 
-	public static function modalUrl(Template $template, array $args, bool $href = false)
+	public static function modalUrl(Template $template, array $args, bool $href = FALSE)
 	{
 		/** @var ModalController $controller */
 		$controller = NULL;

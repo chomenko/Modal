@@ -24,4 +24,5 @@ trait Modal
 		$wrapped = $this->modalFactory->create();
 		return $wrapped;
 	}
+
 }

@@ -16,7 +16,6 @@ use Nette\Configurator;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 
-
 class ModalExtension extends CompilerExtension
 {
 
@@ -43,10 +42,9 @@ class ModalExtension extends CompilerExtension
 
 		$builder->getDefinition('tracy.bar')
 			->addSetup('$service->addPanel($this->getService(?));', [$this->prefix('panel')]);
-    }
+	}
 
-
-    public function beforeCompile()
+	public function beforeCompile()
 	{
 		$builder = $this->getContainerBuilder();
 		$service = $builder->getDefinition($this->prefix("modal"));
@@ -69,13 +67,13 @@ class ModalExtension extends CompilerExtension
 	}
 
 	/**
-     * @param Configurator $configurator
-     */
-    public static function register(Configurator $configurator)
-    {
-        $configurator->onCompile[] = function ($config, Compiler $compiler){
-            $compiler->addExtension('Modal', new ModalExtension());
-        };
-    }
+	 * @param Configurator $configurator
+	 */
+	public static function register(Configurator $configurator)
+	{
+		$configurator->onCompile[] = function ($config, Compiler $compiler) {
+			$compiler->addExtension('Modal', new ModalExtension());
+		};
+	}
 
 }

@@ -37,8 +37,7 @@ class EventListener
 		if (empty($eventsList)) {
 			throw ModalException::mustReturnEventsList(get_class($events));
 		}
-		foreach ($eventsList as $type)
-		{
+		foreach ($eventsList as $type) {
 			$callable = [$events, $type];
 			$event = new Event($callable, $type);
 			$this->install($event);
@@ -55,7 +54,7 @@ class EventListener
 	 */
 	public function emit(string $type, ModalControl $control, ModalFactory $factory, array $args = [])
 	{
-		$result = null;
+		$result = NULL;
 		foreach ($this->getByType($type) as $event) {
 			if ($event->isGlobal() || $factory->getInterface() === $event->getInterface()) {
 				$result = $event->emit($control, $args);
