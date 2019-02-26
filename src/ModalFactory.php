@@ -46,6 +46,11 @@ class ModalFactory
 	private $url;
 
 	/**
+	 * @var Driver
+	 */
+	private $driver;
+
+	/**
 	 * @param string $interface
 	 * @param object $service
 	 * @param Request $request
@@ -57,6 +62,7 @@ class ModalFactory
 		$this->service = $service;
 		$this->request = $request;
 		$this->url = $this->createUrl($request);
+		$this->driver = new Driver($this);
 	}
 
 	/**
@@ -160,6 +166,14 @@ class ModalFactory
 	public function getRequest(): Request
 	{
 		return $this->request;
+	}
+
+	/**
+	 * @return Driver
+	 */
+	public function getDriver(): Driver
+	{
+		return $this->driver;
 	}
 
 }

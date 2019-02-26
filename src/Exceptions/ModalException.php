@@ -7,6 +7,8 @@
 
 namespace Chomenko\Modal\Exceptions;
 
+use Chomenko\Modal\Driver;
+
 class ModalException extends \Exception
 {
 
@@ -34,6 +36,14 @@ class ModalException extends \Exception
 	public static function modalNotFound(string $name)
 	{
 		return new self("Modal '{$name}' not found");
+	}
+
+	/**
+	 * @return ModalException
+	 */
+	public static function modalDriverIsNotAttached()
+	{
+		return new self(Driver::class . "is not attached");
 	}
 
 	/**

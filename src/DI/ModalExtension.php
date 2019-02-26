@@ -8,6 +8,7 @@
 namespace Chomenko\Modal\DI;
 
 use Chomenko\Modal\Events\EventListener;
+use Chomenko\Modal\Events\ModalDriverListener;
 use Chomenko\Modal\IWrappedModal;
 use Chomenko\Modal\ModalController;
 use Chomenko\Modal\Tracy\Panel;
@@ -39,6 +40,10 @@ class ModalExtension extends CompilerExtension
 
 		$builder->addDefinition($this->prefix('panel'))
 			->setFactory(Panel::class);
+
+		$builder->addDefinition($this->prefix('ModalDriverListener'))
+			->addTag('kdyby.subscriber')
+			->setFactory(ModalDriverListener::class);
 
 		$builder->getDefinition('tracy.bar')
 			->addSetup('$service->addPanel($this->getService(?));', [$this->prefix('panel')]);

@@ -216,4 +216,12 @@ class WrappedModal extends Control
 		$this->eventListener->emit(Subscriber::ACCESS_SUCCESS, $control, $factory, [$accessAction]);
 	}
 
+	/**
+	 * @return ModalFactory
+	 */
+	public function getModalFactory(): ModalFactory
+	{
+		return $this->modalFactory;
+	}
+
 }
