@@ -7,13 +7,23 @@
 
 namespace Chomenko\Modal\Events;
 
-use Core\BundlePresenters\CommonPresenter;
+use Chomenko\Modal\ModalController;
 use Kdyby\Events\Subscriber;
 use Nette\Application\Application;
 use Nette\Application\UI\Presenter;
 
 class ModalDriverListener implements Subscriber
 {
+
+	/**
+	 * @var ModalController
+	 */
+	public $modalController;
+
+	public function __construct(ModalController $modalController)
+	{
+		$this->modalController = $modalController;
+	}
 
 	public function getSubscribedEvents(): array
 	{
@@ -31,13 +41,11 @@ class ModalDriverListener implements Subscriber
 	 */
 	public function onPresenter(Application $application, Presenter $presenter)
 	{
-		if ($presenter instanceof CommonPresenter) {
-			$presenter->onStartup[] = function () use ($presenter) {
-				foreach ($presenter->modalController->getModels() as $model) {
-					$model->getDriver()->attach($presenter);
-				}
-			};
-		}
+		$presenter->onStartup[] = function () use ($presenter) {
+			foreach ($this->modalController->getModels() as $model) {
+				$model->getDriver()->attach($presenter);
+			}
+		};
 	}
 
 }
