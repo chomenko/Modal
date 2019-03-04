@@ -22,7 +22,7 @@
     "latte/latte": ">=2.4",
     "nette/utils": ">=2.4",
     "tracy/tracy": ">=2.4",
-    "chomenko/app-webloader": "@dev"
+    "chomenko/app-webloader": "dev-master"
   },
   "autoload": {
     "psr-4": {
