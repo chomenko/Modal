@@ -49,7 +49,7 @@ class Panel implements IBarPanel
 	public function getTab()
 	{
 		$count = count($this->controller->getModels());
-		return Html::el()->addHtml($this->getIconHtml())->addText(" " . $count);
+		return (string)Html::el()->addHtml($this->getIconHtml())->addText(" " . $count);
 	}
 
 	/**
