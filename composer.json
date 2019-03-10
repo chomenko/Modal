@@ -17,12 +17,11 @@
   },
   "require": {
     "php": ">=7.1",
-    "nette/di": ">=2.4",
-    "nette/application": ">=2.4",
-    "latte/latte": ">=2.4",
-    "nette/utils": ">=2.4",
-    "tracy/tracy": ">=2.4",
-    "chomenko/app-webloader": "dev-master"
+    "nette/di": "^2.4",
+    "nette/application": "^2.4",
+    "latte/latte": "^2.4",
+    "nette/utils": "^2.4",
+    "tracy/tracy": "^2.4"
   },
   "autoload": {
     "psr-4": {
