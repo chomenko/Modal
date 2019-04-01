@@ -145,8 +145,6 @@ class ModalFactory
 			return $this->url;
 		}
 
-		barDump($this->url);
-
 		$url = clone $this->url;
 		foreach ($parameters as $key => $value) {
 			$url->setQueryParameter(ModalExtension::CONTROL_NAME . "-" . $this->getId() . "-" . $key, $value);
