@@ -72,7 +72,12 @@ class ModalFactory
 	{
 		$originalUrl = $this->request->getUrl();
 		$modalUrl = clone $originalUrl;
-		$modalUrl->setQuery([]);
+
+		if ($modalUrl->getQueryParameter("do", NULL)) {
+			$query = $modalUrl->getQueryParameters();
+			unset($query["do"]);
+			$modalUrl->setQuery($query);
+		}
 
 		foreach ($modalUrl->getQueryParameters() as $key => $value) {
 			$prefix = ModalExtension::CONTROL_NAME . "-";
@@ -139,6 +144,8 @@ class ModalFactory
 		if (!$parameters) {
 			return $this->url;
 		}
+
+		barDump($this->url);
 
 		$url = clone $this->url;
 		foreach ($parameters as $key => $value) {
