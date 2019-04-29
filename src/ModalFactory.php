@@ -51,6 +51,11 @@ class ModalFactory
 	private $driver;
 
 	/**
+	 * @var bool
+	 */
+	private $active = FALSE;
+
+	/**
 	 * @param string $interface
 	 * @param object $service
 	 * @param Request $request
@@ -103,7 +108,10 @@ class ModalFactory
 	 */
 	public function createInstance()
 	{
-		return $this->service->create();
+		/** @var ModalControl $modalControl */
+		$modalControl = $this->service->create();
+		$modalControl->setModalFactory($this);
+		return $modalControl;
 	}
 
 	/**
@@ -174,6 +182,24 @@ class ModalFactory
 	public function getDriver(): Driver
 	{
 		return $this->driver;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isActive(): bool
+	{
+		return $this->active;
+	}
+
+	/**
+	 * @param bool $active
+	 * @return $this
+	 */
+	public function setActive($active)
+	{
+		$this->active = $active;
+		return $this;
 	}
 
 }

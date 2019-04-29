@@ -40,4 +40,15 @@ interface IModalControl
 	 */
 	public function renderFooter(WrappedHtml $wrappedHtml, ModalHtml $footer);
 
+	/**
+	 * @return ModalFactory
+	 */
+	public function getModalFactory(): ModalFactory;
+
+	/**
+	 * @param ModalFactory $modalFactory
+	 * @return $this
+	 */
+	public function setModalFactory(ModalFactory $modalFactory);
+
 }

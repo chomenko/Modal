@@ -93,4 +93,18 @@ class ModalController
 		return $this->modal;
 	}
 
+	/**
+	 * @return ModalFactory[]
+	 */
+	public function getActiveModals(): array
+	{
+		$list = [];
+		foreach ($this->getModels() as $modal) {
+			if ($modal->isActive()) {
+				$list[] = $modal;
+			}
+		}
+		return $list;
+	}
+
 }

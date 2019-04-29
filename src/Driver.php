@@ -19,11 +19,6 @@ class Driver
 	private $factory;
 
 	/**
-	 * @var WrappedModal
-	 */
-	private $modal;
-
-	/**
 	 * @var ModalPayload
 	 */
 	private $payload;

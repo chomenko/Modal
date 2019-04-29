@@ -15,6 +15,11 @@ abstract class ModalControl extends Control implements IModalControl
 {
 
 	/**
+	 * @var ModalFactory
+	 */
+	private $modalFactory;
+
+	/**
 	 * @var callable[]
 	 */
 	private $onAttached = [];
@@ -91,6 +96,11 @@ abstract class ModalControl extends Control implements IModalControl
 	public function saveState(array &$params)
 	{
 		parent::saveState($params);
+		$closeModal = $this->getModalFactory()->getDriver()->getPayload()->isClose();
+		if ($closeModal) {
+			return;
+		}
+
 		foreach ($this->persistent as $key => $value) {
 			if (!array_key_exists($key, $params)) {
 				$params[$key] = $value;
@@ -127,6 +137,24 @@ abstract class ModalControl extends Control implements IModalControl
 	public function setPersistent(array $params)
 	{
 		$this->persistent = $params;
+	}
+
+	/**
+	 * @return ModalFactory
+	 */
+	public function getModalFactory(): ModalFactory
+	{
+		return $this->modalFactory;
+	}
+
+	/**
+	 * @param ModalFactory $modalFactory
+	 * @return $this
+	 */
+	public function setModalFactory(ModalFactory $modalFactory)
+	{
+		$this->modalFactory = $modalFactory;
+		return $this;
 	}
 
 	/**

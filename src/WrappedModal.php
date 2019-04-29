@@ -24,7 +24,7 @@ class WrappedModal extends Control
 	/**
 	 * @var ModalController
 	 */
-	private $controller;
+	public $controller;
 
 	/**
 	 * @var ModalFactory
@@ -113,6 +113,8 @@ class WrappedModal extends Control
 				$class = get_class($this);
 				throw new BadSignalException("There is no handler for signal '$signal' in class $class.");
 			}
+			$factory->setActive(TRUE);
+
 			$this->createModal($factory);
 		}
 	}
@@ -129,6 +131,7 @@ class WrappedModal extends Control
 		$exp = explode("-", $name);
 		$factory = $this->controller->getById($exp[0]);
 		if ($factory) {
+			$factory->setActive(TRUE);
 			$this->createModal($factory);
 		}
 		return parent::getComponent($name, $throw);
