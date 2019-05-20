@@ -164,7 +164,8 @@ class ModalFactory
 		foreach ($parameters as $key => $value) {
 			$url->setQueryParameter(ModalExtension::CONTROL_NAME . "-" . $this->getId() . "-" . $key, $value);
 		}
-		if (method_exists($this->getClassName(), 'onCreateLink')) {
+
+		if (method_exists($this->getClassName(), 'onCreateUrl')) {
 			($this->getClassName())::onCreateUrl($this, $url, $parameters);
 		}
 
