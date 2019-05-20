@@ -56,16 +56,23 @@ class ModalFactory
 	private $active = FALSE;
 
 	/**
+	 * @var string
+	 */
+	private $className;
+
+	/**
 	 * @param string $interface
+	 * @param string $className
 	 * @param object $service
 	 * @param Request $request
 	 */
-	public function __construct(string $interface, object $service, Request $request)
+	public function __construct(string $interface, string $className, object $service, Request $request)
 	{
 		$this->id = hash("crc32b", $interface);
 		$this->interface = $interface;
 		$this->service = $service;
 		$this->request = $request;
+		$this->className = $className;
 		$this->url = $this->createUrl($request);
 		$this->driver = new Driver($this);
 	}
@@ -157,6 +164,10 @@ class ModalFactory
 		foreach ($parameters as $key => $value) {
 			$url->setQueryParameter(ModalExtension::CONTROL_NAME . "-" . $this->getId() . "-" . $key, $value);
 		}
+		if (method_exists($this->getClassName(), 'onCreateLink')) {
+			($this->getClassName())::onCreateUrl($this, $url, $parameters);
+		}
+
 		return $url;
 	}
 
@@ -205,6 +216,14 @@ class ModalFactory
 	{
 		$this->active = $active;
 		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getClassName(): string
+	{
+		return $this->className;
 	}
 
 }

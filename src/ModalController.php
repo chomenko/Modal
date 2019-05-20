@@ -48,14 +48,15 @@ class ModalController
 
 	/**
 	 * @param string $interface
+	 * @param string $className
 	 * @throws ModalException
 	 */
-	public function addModal(string $interface)
+	public function addModal(string $interface, string $className)
 	{
 		if (!interface_exists($interface)) {
 			throw ModalException::interfaceNotFound($interface);
 		}
-		$factory = new ModalFactory($interface, $this->container->getByType($interface), $this->request);
+		$factory = new ModalFactory($interface, $className, $this->container->getByType($interface), $this->request);
 		$this->modal[$factory->getId()] = $factory;
 	}
 

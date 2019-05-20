@@ -57,7 +57,7 @@ class ModalExtension extends CompilerExtension
 		foreach ($builder->findByTag(self::TAG_FACTORY) as $name => $item) {
 			$definition = $builder->getDefinition($name);
 			$type = $definition->getImplement() ? $definition->getImplement() : $definition->getType();
-			$service->addSetup("addModal", [$type]);
+			$service->addSetup("addModal", [$type, $definition->getFactory()->getEntity()]);
 		}
 
 		$event = $builder->getDefinition($this->prefix("event"));

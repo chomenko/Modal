@@ -67,15 +67,21 @@ Add to layout.late
 Create your first modal. Create file HelloWorldModal.php podivej se na ``Chomenko\Modal\ModalControl``
 
 ````php
+<?php
+
 namespace App\Components;
 
 use Chomenko\AutoInstall\AutoInstall;
-use Chomenko\AutoInstall\Tag;
-use Chomenko\Modal\ModalControl;
+use Chomenko\AutoInstall\Config;
+use Chomenko\Modal\ModalHtml;
 use Chomenko\Modal\WrappedHtml;
+use Chomenko\Modal\ModalControl;
+use Chomenko\Modal\ModalFactory;
+use Chomenko\Modal\AccessAction;
+use Nette\Http\Url;
 
 /**
- * @Tag({"modal.factory"})
+ * @Config\Tag({"modal.factory"})
  */
 class HelloWorldModal extends ModalControl implements AutoInstall
 {
@@ -94,6 +100,17 @@ class HelloWorldModal extends ModalControl implements AutoInstall
 	}
 	
 	/**
+	 * @param ModalFactory $factory
+	 * @param Url $url
+	 * @param array $parameters
+	 * @throws \Exception
+	 */
+	public static function onCreateUrl(ModalFactory $factory, Url $url, array $parameters = [])
+	{
+	}
+	
+	
+	/**
 	 * @param AccessAction $accessAction
 	 * @return bool
 	 */
@@ -105,7 +122,7 @@ class HelloWorldModal extends ModalControl implements AutoInstall
 	/**
 	 * @return string
 	 */
-	protected function getTitle() :string
+	public function getTitle() :string
 	{
 		return "Hello World";
 	}
@@ -113,7 +130,7 @@ class HelloWorldModal extends ModalControl implements AutoInstall
 	/**
 	 * @param WrappedHtml $wrappedHtml
 	 */
-	public function renderBody(WrappedHtml $wrappedHtml)
+	public function renderBody(WrappedHtml $wrappedHtml, ModalHtml $body)
 	{
 		$this->template->id = $this->id;
 		$this->template->setFile(__DIR__ . "/body.latte");
