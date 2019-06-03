@@ -13,9 +13,9 @@ use Chomenko\Modal\DI\ModalExtension;
 use Chomenko\Modal\Events\EventListener;
 use Chomenko\Modal\Events\Subscriber;
 use Chomenko\Modal\Exceptions\ModalException;
+use Nette\Application\Application;
 use Nette\Application\UI\BadSignalException;
 use Nette\Application\UI\Control;
-use Nette\Http\Url;
 use Nette\Security\User;
 
 class WrappedModal extends Control
@@ -42,17 +42,24 @@ class WrappedModal extends Control
 	private $user;
 
 	/**
+	 * @var Application
+	 */
+	private $application;
+
+	/**
 	 * @param AppWebLoader $appWebLoader
 	 * @param ModalController $controller
 	 * @param EventListener $eventListener
 	 * @param User $user
+	 * @param Application $application
 	 * @throws \ReflectionException
 	 */
 	public function __construct(
 		AppWebLoader $appWebLoader,
 		ModalController $controller,
 		EventListener $eventListener,
-		User $user
+		User $user,
+		Application $application
 	) {
 		$this->controller = $controller;
 		$this->eventListener = $eventListener;
@@ -63,6 +70,7 @@ class WrappedModal extends Control
 		} catch (AppWebLoaderException $e) {
 			return;
 		}
+		$this->application = $application;
 	}
 
 	public function render()
@@ -181,9 +189,9 @@ class WrappedModal extends Control
 	private function getComponentParams(ModalFactory $factory) : array
 	{
 		$parameters = [];
-		$actualLink = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-		$url = new Url($actualLink);
-		foreach ($url->getQueryParameters() as $key => $value) {
+		$requests = $this->application->getRequests();
+		$request = end($requests);
+		foreach ($request->getParameters() as $key => $value) {
 			$prefix = ModalExtension::CONTROL_NAME . "-" . $factory->getId() . "-";
 			$len = strlen($prefix);
 			if (substr($key, 0, $len) === $prefix) {
