@@ -17,7 +17,13 @@ use Nette\Application\Application;
 use Nette\Application\UI\BadSignalException;
 use Nette\Application\UI\Control;
 use Nette\Security\User;
+use NettPack\Stage\Annotations as NP;
 
+/**
+ * @NP\NettPack(snippetSagas={
+ *     @NP\SnippetSaga(saga="SAGA_MODAL_REQUEST_STARTED", snippet="snippet--modal-Area")
+ * })
+ */
 class WrappedModal extends Control
 {
 
