@@ -27,5 +27,12 @@
     "psr-4": {
       "Chomenko\\Modal\\": "src/"
     }
+  },
+  "extra": {
+    "nettpack": {
+      "resolve": {
+        "ModalComponent": "./src/Assets/main.js"
+      }
+    }
   }
 }
