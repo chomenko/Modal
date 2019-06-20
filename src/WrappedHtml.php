@@ -122,8 +122,8 @@ class WrappedHtml extends Html
 			"data-dismiss" => "modal",
 		])->setText("Close");
 
-		return ModalHtml::el("modal-footer", [
-			"class" => "modal-body",
+		return ModalHtml::el("div", [
+			"class" => "modal-footer",
 		])->addHtml($closeButton);
 	}
 

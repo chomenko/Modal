@@ -87,14 +87,51 @@ class WrappedModal extends Control
 
 		$this->eventListener->emit(Subscriber::BEFORE_RENDER, $component, $factory, [$wrapped]);
 
+		$header = $wrapped->createHeader($component->getTitle());
+		$body = $wrapped->createBody();
+		$footer = $wrapped->createFooter();
+
+		//Render header
 		ob_start();
-		$component->renderHeader($wrapped, $wrapped->createHeader($component->getTitle()));
-		$component->renderBody($wrapped, $wrapped->createBody());
-		$component->renderFooter($wrapped, $wrapped->createFooter());
-		$output = ob_get_contents();
+		$component->renderHeader($wrapped, $header);
+		$headerContent = ob_get_contents();
+		if (!$header->isRendered() && !empty($bodyContent)) {
+			$header->setHtml($headerContent);
+			ob_clean();
+			$header->render();
+			$headerContent = ob_get_contents();
+		}
 		ob_end_clean();
 
-		$wrapped->getContent()->addHtml($output);
+		//Render body
+		ob_start();
+		$component->renderBody($wrapped, $body);
+		$bodyContent = ob_get_contents();
+		if (!$body->isRendered() && !empty($bodyContent)) {
+			$body->setHtml($bodyContent);
+			ob_clean();
+			$body->render();
+			$bodyContent = ob_get_contents();
+		}
+		ob_end_clean();
+
+		//Render footer
+		ob_start();
+		$component->renderFooter($wrapped, $footer);
+		$footerContent = ob_get_contents();
+		if (!$footer->isRendered() && !empty($footerContent)) {
+			$footer->setHtml($footerContent);
+			ob_clean();
+			$footer->render();
+			$footerContent = ob_get_contents();
+		}
+		ob_end_clean();
+
+		$wrappedContent = $wrapped->getContent();
+		$wrappedContent->addHtml($headerContent);
+		$wrappedContent->addHtml($bodyContent);
+		$wrappedContent->addHtml($footerContent);
+
 		$this->eventListener->emit(Subscriber::AFTER_RENDER, $component, $factory, [$wrapped]);
 
 		$this->template->factory = $factory;
