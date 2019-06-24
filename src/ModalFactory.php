@@ -8,6 +8,8 @@
 namespace Chomenko\Modal;
 
 use Chomenko\Modal\DI\ModalExtension;
+use Nette\Application\Application;
+use Nette\DI\Container;
 use Nette\Http\Request;
 use Nette\Http\Url;
 use Nette\Utils\Html;
@@ -31,9 +33,9 @@ class ModalFactory
 	private $service;
 
 	/**
-	 * @var ModalControl|null
+	 * @var ModalControl[]
 	 */
-	private $instance;
+	private $instances = [];
 
 	/**
 	 * @var Request
@@ -61,18 +63,28 @@ class ModalFactory
 	private $className;
 
 	/**
+	 * @var Container
+	 */
+	private $container;
+
+	/**
+	 * @var Application
+	 */
+	private $application;
+
+	/**
 	 * @param string $interface
 	 * @param string $className
-	 * @param object $service
+	 * @param Container $container
 	 * @param Request $request
 	 */
-	public function __construct(string $interface, string $className, object $service, Request $request)
+	public function __construct(string $interface, string $className, Container $container, Request $request)
 	{
 		$this->id = hash("crc32b", $interface);
 		$this->interface = $interface;
-		$this->service = $service;
 		$this->request = $request;
 		$this->className = $className;
+		$this->container = $container;
 		$this->url = $this->createUrl($request);
 		$this->driver = new Driver($this);
 	}
@@ -103,16 +115,40 @@ class ModalFactory
 		return $modalUrl;
 	}
 
-
 	/**
 	 * @return ModalControl
 	 */
 	public function getInstance()
 	{
-		if (!$this->instance) {
-			$this->instance = $this->createInstance();
+		$identifier = $this->getRequestIdentifier();
+		if (!array_key_exists($identifier, $this->instances)) {
+			$instance = $this->createInstance();
+			$this->instances[$identifier] = $instance;
+			return $instance;
 		}
-		return $this->instance;
+		return $this->instances[$identifier];
+	}
+
+	/**
+	 * @return Application
+	 */
+	private function getApplication()
+	{
+		if (!$this->application) {
+			$services = $this->container->findByType(Application::class);
+			$this->application = $this->container->getService(end($services));
+		}
+		return $this->application;
+	}
+
+	/**
+	 * @return int
+	 */
+	private function getRequestIdentifier(): int
+	{
+		$requests = $this->getApplication()->getRequests();
+		end($requests);
+		return key($requests);
 	}
 
 	/**
@@ -121,7 +157,7 @@ class ModalFactory
 	public function createInstance()
 	{
 		/** @var ModalControl $modalControl */
-		$modalControl = $this->service->create();
+		$modalControl = $this->getService()->create();
 		$modalControl->setModalFactory($this);
 		return $modalControl;
 	}
@@ -143,10 +179,21 @@ class ModalFactory
 	}
 
 	/**
+	 * @return ModalControl[]
+	 */
+	public function getInstances(): array
+	{
+		return $this->instances;
+	}
+
+	/**
 	 * @return object
 	 */
 	public function getService(): object
 	{
+		if (!$this->service) {
+			$this->service = $this->container->getByType($this->interface);
+		}
 		return $this->service;
 	}
 

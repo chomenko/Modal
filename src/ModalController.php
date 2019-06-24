@@ -56,7 +56,7 @@ class ModalController
 		if (!interface_exists($interface)) {
 			throw ModalException::interfaceNotFound($interface);
 		}
-		$factory = new ModalFactory($interface, $className, $this->container->getByType($interface), $this->request);
+		$factory = new ModalFactory($interface, $className, $this->container, $this->request);
 		$this->modal[$factory->getId()] = $factory;
 	}
 

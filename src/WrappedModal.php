@@ -218,7 +218,6 @@ class WrappedModal extends Control
 				$component->setPersistent($arguments);
 				call_user_func_array([$component, "create"], $arguments);
 			}
-
 			$this->addComponent($component, $factory->getId());
 			$this->modalFactory = $factory;
 		}
