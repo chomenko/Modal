@@ -8,6 +8,7 @@ Required
  - [nette/utils](https://github.com/nette/utils)
  - [tracy/tracy](https://github.com/nette/tracy)
  - [latte/latte](https://github.com/nette/latte)
+ - [nettpack/stage](https://github.com/nettpack/stage)
 
 ## Install
 
