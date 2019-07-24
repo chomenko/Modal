@@ -1,1 +1,1 @@
-export * from './ModalComponent';
+export * from './ModalComponent.ts';
