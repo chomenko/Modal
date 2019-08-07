@@ -49,6 +49,7 @@ class ModalComponent extends BaseComponent {
 					selectedModal.on("hidden.bs.modal", function () {
 						$(this).remove();
 					});
+					$(selectedModal).modal('hide');
 				}
 
 				App.store.dispatch({
