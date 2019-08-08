@@ -57,7 +57,7 @@ class ModalComponent extends BaseComponent {
 					payload: {
 						snippetName: snippetName,
 						content: resultContent,
-						response: payload
+						response: response
 					}
 				});
 			}
