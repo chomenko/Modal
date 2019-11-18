@@ -52,6 +52,7 @@ class Driver
 	 */
 	public function closeModal(bool $close = TRUE)
 	{
+		$this->factory->setClosed($close);
 		$this->getPayload()->setClose($close);
 	}
 
