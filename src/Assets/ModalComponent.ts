@@ -39,8 +39,18 @@ class ModalComponent extends BaseComponent {
 				source.html(content);
 			}
 
+			let closed = false;
 			let modalSnippetId = content.attr('id');
-			$('#' + modalSnippetId).modal("show");
+			for (let modalId in modal) {
+				const modalData = modal[modalId];
+				if (modalData.close && modalId === modalSnippetId) {
+					closed = true;
+				}
+			}
+
+			if (closed === false) {
+				$('#' + modalSnippetId).modal("show");
+			}
 
 			for (let modalId in modal) {
 				const modalData = modal[modalId];

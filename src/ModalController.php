@@ -108,4 +108,18 @@ class ModalController
 		return $list;
 	}
 
+	/**
+	 * @return ModalFactory[]
+	 */
+	public function getClosedModals(): array
+	{
+		$list = [];
+		foreach ($this->getActiveModals() as $modal) {
+			if ($modal->isClosed()) {
+				$list[] = $modal;
+			}
+		}
+		return $list;
+	}
+
 }

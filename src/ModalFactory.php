@@ -58,6 +58,11 @@ class ModalFactory
 	private $active = FALSE;
 
 	/**
+	 * @var bool
+	 */
+	private $closed = FALSE;
+
+	/**
 	 * @var string
 	 */
 	private $className;
@@ -272,6 +277,22 @@ class ModalFactory
 	public function getClassName(): string
 	{
 		return $this->className;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isClosed(): bool
+	{
+		return $this->closed;
+	}
+
+	/**
+	 * @param bool $closed
+	 */
+	public function setClosed(bool $closed): void
+	{
+		$this->closed = $closed;
 	}
 
 }
