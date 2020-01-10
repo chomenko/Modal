@@ -7,6 +7,7 @@
 
 namespace Chomenko\Modal;
 
+use Bundles\Steps\Executor;
 use Chomenko\Modal\DI\ModalExtension;
 use Chomenko\Modal\Events\EventListener;
 use Chomenko\Modal\Events\Subscriber;
@@ -168,11 +169,17 @@ class WrappedModal extends Control
 	 */
 	public function getComponent($name, $throw = TRUE)
 	{
-		$exp = explode("-", $name);
-		$factory = $this->controller->getById($exp[0]);
-		if ($factory) {
-			$factory->setActive(TRUE);
-			$this->createModal($factory);
+		$do = $this->presenter->getParameter('do');
+		if ($do) {
+			$doExp = explode('-', $do);
+			$exp = explode("-", $name);
+			if ($doExp[0] == Executor::TYPE_MODAL) {
+				$factory = $this->controller->getById($exp[0]);
+				if ($factory) {
+					$factory->setActive(TRUE);
+					$this->createModal($factory);
+				}
+			}
 		}
 		return parent::getComponent($name, $throw);
 	}
