@@ -7,7 +7,6 @@
 
 namespace Chomenko\Modal;
 
-use Bundles\Steps\Executor;
 use Chomenko\Modal\DI\ModalExtension;
 use Chomenko\Modal\Events\EventListener;
 use Chomenko\Modal\Events\Subscriber;
@@ -173,7 +172,7 @@ class WrappedModal extends Control
 		if ($do) {
 			$doExp = explode('-', $do);
 			$exp = explode("-", $name);
-			if ($doExp[0] == Executor::TYPE_MODAL) {
+			if ($doExp[0] == 'modal') {
 				$factory = $this->controller->getById($exp[0]);
 				if ($factory) {
 					$factory->setActive(TRUE);
