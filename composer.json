@@ -16,7 +16,7 @@
     "email": "mykola.chomenko@dipcom.cz"
   },
   "require": {
-    "php": ">=7.1",
+    "php": "<=7.1",
     "nette/di": "^2.4",
     "nette/application": "^2.4",
     "latte/latte": "^2.4",
