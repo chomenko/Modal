@@ -22,7 +22,7 @@ class ModalExtension extends CompilerExtension
 
 	const TAG_EVENT = 'modal.events';
 	const TAG_FACTORY = 'modal.factory';
-	const KEY_PROVIDER = '@modal.provider';
+	const KEY_PROVIDER = 'modalprovider';
 	const CONTROL_NAME = 'modal';
 
 	public function loadConfiguration()
